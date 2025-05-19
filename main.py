@@ -219,6 +219,46 @@ class Game:
         if not self.running: 
             return 
         self.screen.fill(BLACK)
+        self.draw_text ("GAME OVER", FONT_SIZE_GAMEOVER_TITLE, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
+        self.draw_text (f"Score: {self.score}", FONT_SIZE_GAMEOVER_SCORE, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        self.draw_text = ("Press any key to begin...", FONT_SIZE_GAMEOVER_RESTART, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 4)
+        pygame.display.flip()
+        self.wait_for_key() # - Wait for a key press - # 
+
+    def wait_for_key(self):
+        """Waits for a key press."""
+
+        waiting = True
+        while waiting: 
+            self.clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    self.running = False 
+                if event.type == pygame.KEYUP: 
+                    waiting = False 
+    
+    def draw_text(self, text, size, color, x, y): 
+        """Draws text on the screen."""
+
+        font = pygame.font.Font(self.font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x, y)
+        self.screen.blit(text_surface, text_rect)
+
+
+# -- Initialize and Run The Game -- #
+game = Game()
+game.show_start_screen()
+
+while game.running:
+    game.new()
+    game.show_game_over_screen()
+
+pygame.quit()
+
+
 
     
     
