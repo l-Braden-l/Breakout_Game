@@ -28,7 +28,7 @@ PLAYER_WIDTH = 90
 PLAYER_HEIGHT = 20 
 PLAYER_START_X = SCREEN_WIDTH // 2 
 PLAYER_START_Y = SCREEN_HEIGHT - 40
-PLAYER_MOVEMENT_SPEED = 50
+PLAYER_MOVEMENT_SPEED = 30
 
 # -- Ball Constants -- # 
 BALL_RADIUS = 10 
@@ -66,9 +66,9 @@ class Player(pygame.sprite.Sprite):
         """Moves the player based on keyboard input."""
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT] and self.x <= SCREEN_WIDTH - PLAYER_WIDTH // 2 and self.y > SCREEN_HEIGHT - 100: 
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d] and self.x <= SCREEN_WIDTH - PLAYER_WIDTH // 2 and self.y > SCREEN_HEIGHT - 100: 
             self.x += PLAYER_MOVEMENT_SPEED
-        if keys[pygame.K_LEFT] and self.x >= PLAYER_WIDTH // 2 and self.y > SCREEN_HEIGHT - 100: 
+        if keys[pygame.K_LEFT] or keys[pygame.K_a] and self.x >= PLAYER_WIDTH // 2 and self.y > SCREEN_HEIGHT - 100: 
             self.x -= PLAYER_MOVEMENT_SPEED
 
         self.rect.center = (self.x, self.y)
