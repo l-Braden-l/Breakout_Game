@@ -1,6 +1,6 @@
 import pygame
 import random
-
+import sys
 
 # -- Window Dimensions and Title -- # 
 SCREEN_WIDTH = 800
@@ -50,6 +50,7 @@ BRICK_COLUMNS = 8
 class Player(pygame.sprite.Sprite): 
     """Represents the player's paddle."""
 
+
     def __init__(self, color):
         super().__init__()
         self.color = color 
@@ -65,6 +66,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         """Moves the player based on keyboard input."""
 
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] or keys[pygame.K_d] and self.x <= SCREEN_WIDTH - PLAYER_WIDTH // 2 and self.y > SCREEN_HEIGHT - 100: 
             self.x += PLAYER_MOVEMENT_SPEED
@@ -76,6 +78,8 @@ class Player(pygame.sprite.Sprite):
 
 class Ball(pygame.sprite.Sprite): 
     """Represents the Ball"""
+
+
     def __init__(self):
         super().__init__()
         ball_image = pygame.Surface((BALL_DIAMETER, BALL_DIAMETER))
@@ -91,6 +95,7 @@ class Ball(pygame.sprite.Sprite):
         self.x_vel = BALL_INITIAL_X_SPEED
         self.y_vel = BALL_INITIAL_Y_SPEED
         self.rect.center = (self.x, self.y)
+
 
     def update(self): 
         """Moves the ball and handles boucning off walls."""
@@ -109,6 +114,7 @@ class Ball(pygame.sprite.Sprite):
 class Brick(pygame.sprite.Sprite):
     """Represents a brick in the game."""
 
+
     def __init__(self, x, y, color): 
         super().__init__()
         self.image = pygame.Surface((BRICK_WIDTH, BRICK_HEIGHT))
@@ -120,6 +126,7 @@ class Brick(pygame.sprite.Sprite):
 class Game: 
     """Managest the overall game logic and states."""
 
+
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -127,6 +134,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True # - Flag to keep the game running - # 
         self.font_name = pygame.font.match_font(FONT)
+
 
     def new(self): 
         """Sets up a new game."""
@@ -164,6 +172,7 @@ class Game:
             self.update()
             self.draw()
 
+
     def events(self): 
         """Handles game events (e.g., user input, closing of window, etc.)."""
 
@@ -171,6 +180,7 @@ class Game:
             if event.type == pygame.QUIT: 
                 self.playing = False 
                 self.running = False 
+
 
     def update(self): 
         """Updates the game state (e.g., sprite positions, collisions)."""
@@ -194,7 +204,8 @@ class Game:
                 self.playing = False
             if not self.bricks: # - No more bricks left
                 self.playing = False 
-                 
+
+
     def draw(self): 
         """Draws the curent game frame."""
 
@@ -204,6 +215,7 @@ class Game:
 
         pygame.display.flip() # - Updates what needs to be drawn on the screen - # 
 
+
     def show_start_screen(self):
         """Displays the start screen."""
 
@@ -212,6 +224,7 @@ class Game:
         self.draw_text('Press any key to begin...', FONT_SIZE_INSTRUCTIONS, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
         pygame.display.flip()
         self.wait_for_key() # - Wait for a key press - # 
+
 
     def show_game_over_screen(self): 
         """Displays the game over screen."""
@@ -224,6 +237,7 @@ class Game:
         self.draw_text = ("Press any key to begin...", FONT_SIZE_GAMEOVER_RESTART, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 4)
         pygame.display.flip()
         self.wait_for_key() # - Wait for a key press - # 
+
 
     def wait_for_key(self):
         """Waits for a key press."""
@@ -238,14 +252,19 @@ class Game:
                 if event.type == pygame.KEYUP: 
                     waiting = False 
     
+
     def draw_text(self, text, size, color, x, y): 
         """Draws text on the screen."""
-
+        pygame.init()
+        pygame.font.init()
+        pygame.mixer.init()  # Initialize the mixer
         font = pygame.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x, y)
         self.screen.blit(text_surface, text_rect)
+
+
 
 
 # -- Initialize and Run The Game -- #
